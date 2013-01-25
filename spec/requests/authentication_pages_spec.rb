@@ -38,7 +38,7 @@ describe "Authentication" do
       describe "followed by signout" do
         before { click_link "Sign out" }
         it { should have_link("Sign in") }
-        it { should have_content("See ya!") }
+        it { should have_success_message("See ya!") }
       end
     end
   end
