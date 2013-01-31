@@ -39,6 +39,14 @@ describe "Authentication" do
       it { should have_link('Sign out', href: signout_path) }
       it { should_not have_link('Sign in', href: signin_path) }
 
+#      describe "hack using PUT to get admin access" do
+#        it "should not allow CLI PUT action on admin attribute" do
+#          expect do
+#            put user_path(user), {user: {admin: 1}, id: user.id}
+#          end.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
+#        end
+#      end
+
       describe "followed by signout" do
         before { click_link "Sign out" }
         it { should have_link("Sign in") }

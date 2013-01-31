@@ -43,7 +43,6 @@ describe User do
     it "should not allow access to admin" do
       expect do
         @user.update_attributes(:admin => true)
-        #put user_path(user) + "?admin=1"
       end.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
     end    
   end
