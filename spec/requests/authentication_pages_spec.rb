@@ -30,7 +30,7 @@ describe "Authentication" do
 
     describe "with valid information" do
       let(:user) { FactoryGirl.create(:user) }
-      before { valid_signin(user) }
+      before { sign_in(user) }
 
       it { should have_selector('title', text: user.name) }
       it { should have_link('Users', href: users_path) }
@@ -39,12 +39,27 @@ describe "Authentication" do
       it { should have_link('Sign out', href: signout_path) }
       it { should_not have_link('Sign in', href: signin_path) }
 
-#      describe "hack using PUT to get admin access" do
-#        it "should not allow CLI PUT action on admin attribute" do
-#          expect do
-#            put user_path(user), {user: {admin: 1}, id: user.id}
-#          end.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
+      describe "hack using PUT to get admin access" do
+        it "should not allow CLI PUT action on protected admin attribute" do
+          expect do
+            put user_path(user), {user: {admin: 1}, id: user.id}
+          end.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
+        end
+      end
+
+#      describe "does CLI PUT action change admin attribute?" do
+#        let(:new_user) { FactoryGirl.create(:user, email: "new@example.com") }
+#        before { put user_path(user), { user: {admin: 1}, id: user.id} 
+#                 sign_in(user) }
+#        describe "submitting a DELETE request to the Users#destroy action" do
+#          before { delete user_path(new_user) }
+#          specify { response.should redirect_to(root_path) }
 #        end
+#      end
+
+#      describe "when attempting to access the 'new' action of User" do
+#        put new_user_path
+#        specify { response.should redirect_to(root_url) }
 #      end
 
       describe "followed by signout" do
@@ -112,7 +127,7 @@ describe "Authentication" do
 
       describe "submitting a DELETE request to the Users#destroy action" do
         before { delete user_path(user) }
-        specify { response.should redirect_to(root_path) }        
+        specify { response.should redirect_to(root_path) }
       end
     end
   end
