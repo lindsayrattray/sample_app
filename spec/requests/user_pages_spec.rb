@@ -30,6 +30,27 @@ describe "User pages" do
       end
     end
 
+    describe "can't access some pages / actions after signin" do
+      before { sign_in(user) }
+
+      describe "creating a new user" do
+
+        describe "getting signup page" do
+          before { get new_user_path }
+          specify { response.should redirect_to(root_url) }
+        end
+      describe "creating a new user" do
+        before { visit new_user_path }
+        it { should have_selector 'title', text: full_title('') }
+      end
+
+        describe "posting new user request" do
+          before { post users_path }
+          specify { response.should redirect_to(root_url) }
+        end
+      end
+    end
+
     describe "delete links" do
 
       it { should_not have_link('delete') }
