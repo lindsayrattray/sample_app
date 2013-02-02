@@ -47,11 +47,6 @@ describe "Authentication" do
         end
       end
 
-#      describe "when attempting to access the 'new' action of User" do
-#        put new_user_path
-#        specify { response.should redirect_to(root_url) }
-#      end
-
       describe "followed by signout" do
         before { click_link "Sign out" }
         it { should have_link("Sign in") }
@@ -75,6 +70,17 @@ describe "Authentication" do
 
           it "should render the desired protected page" do
             page.should have_selector('title', text: 'Edit user')
+          end
+
+          describe "when signing in again" do
+            before do
+              delete signout_path
+              sign_in(user)
+            end
+
+            it "should render the default (profile) page" do
+              page.should have_selector('title', text: user.name) 
+            end
           end
         end
       end

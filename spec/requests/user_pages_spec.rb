@@ -39,10 +39,10 @@ describe "User pages" do
           before { get new_user_path }
           specify { response.should redirect_to(root_url) }
         end
-'      describe "creating a new user" do
-'        before { visit new_user_path }
-'        it { should have_selector 'title', text: full_title('') }
-'      end
+#      describe "creating a new user" do
+#        before { visit new_user_path }
+#        it { should have_selector 'title', text: full_title('') }
+#      end
 
         describe "posting new user request" do
           before { post users_path }
