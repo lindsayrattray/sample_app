@@ -1,22 +1,18 @@
 class UsersController < ApplicationController
-  before_filter :signed_in_user, only: [:index, :edit, :update, :destroy]
-  before_filter :correct_user,   only: [:edit, :update]
-  before_filter :admin_user,     only: :destroy
+  before_filter :signed_in_user,    only: [:index, :edit, :update, :destroy]
+  before_filter :correct_user,      only: [:edit, :update]
+  before_filter :admin_user,        only: :destroy
+  before_filter :already_signed_in, only: [:new, :create] 
 
   def show
     @user = User.find(params[:id])
   end
 
   def new
-    if !signed_in?
       @user = User.new
-    else
-      redirect_to root_url, notice: "Already logged in" 
-    end
   end
 
   def create
-    if !signed_in?
       @user = User.new(params[:user])
       if @user.save
         sign_in @user
@@ -25,9 +21,6 @@ class UsersController < ApplicationController
       else
         render 'new'
       end
-    else
-      redirect_to root_url, notice: "Already logged in"       
-    end
   end
 
   def index
@@ -54,6 +47,12 @@ class UsersController < ApplicationController
   end
 
   private
+
+    def already_signed_in
+      if signed_in?
+        redirect_to root_url, notice: "Already signed in."
+      end
+    end
 
     def signed_in_user
       unless signed_in?
