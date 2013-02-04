@@ -16,6 +16,14 @@ describe "User pages" do
     it { should have_selector('title', text: 'All users') }
     it { should have_selector('h1',    text: 'All users') }
 
+
+  describe "admins can't delete themselves with an HTTP request" do
+    let(:admin) { FactoryGirl.create(:admin) }
+    before { sign_in admin }
+
+    it { expect { delete user_path(admin), :id => admin.id }.to_not change(User, :count) }
+  end
+
     describe "pagination" do
 
       before(:all) { 30.times { FactoryGirl.create(:user) } }
