@@ -1,6 +1,10 @@
 class SessionsController < ApplicationController
+# before_filter :already_signed_in, only: [:new, :create] # this could be uncommented to stop signed-in users signing in again
 
   def new
+#      if signed_in?
+#        redirect_to root_url, notice: "Already signed in."
+#      end
   end
 
   def create
@@ -19,4 +23,12 @@ class SessionsController < ApplicationController
     flash[:success] = 'See ya!'
     redirect_to root_url
   end
+
+#  private
+#
+#    def already_signed_in
+#      if signed_in?
+#       redirect_to root_url, notice: "Already signed in."
+#      end
+#    end
 end

@@ -72,14 +72,22 @@ describe "Authentication" do
             page.should have_selector('title', text: 'Edit user')
           end
 
-          describe "when signing in again" do
+
+          describe "when signing out" do
             before do
               delete signout_path
-              sign_in(user)
             end
+            it { should have_selector('title', text: full_title('')) }
+            
+            describe "when signing in again" do
+              before do
+                visit signin_path
+                sign_in(user)
+              end
 
-            it "should render the default (profile) page" do
-              page.should have_selector('title', text: user.name) 
+              it "should render the default (profile) page" do
+                page.should have_selector('title', text: user.name) 
+              end
             end
           end
         end

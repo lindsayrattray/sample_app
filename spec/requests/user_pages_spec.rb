@@ -39,7 +39,7 @@ describe "User pages" do
     end
 
     describe "can't access some pages / actions after signin" do
-      before { sign_in(user) }
+      before { sign_in user }
 
       describe "creating a new user" do
 
