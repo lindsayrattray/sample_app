@@ -81,7 +81,7 @@ describe "Authentication" do
             
             describe "when signing in again" do
               before do
-                visit signin_path
+                #visit signin_path
                 sign_in(user)
               end
 
