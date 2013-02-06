@@ -4,10 +4,6 @@ class UsersController < ApplicationController
   before_filter :admin_user,        only: :destroy
   before_filter :already_signed_in, only: [:new, :create] 
 
-  def show
-    @user = User.find(params[:id])
-  end
-
   def new
       @user = User.new
   end
@@ -48,6 +44,11 @@ class UsersController < ApplicationController
       flash[:success] = "User destroyed."
     end
     redirect_to users_path
+  end
+
+  def show
+    @user = User.find(params[:id])
+    @microposts = @user.microposts.paginate(page: params[:page])
   end
 
   private
