@@ -29,6 +29,29 @@ describe "Micropost pages" do
         expect { click_button "Post" }.to change(Micropost, :count).by(1)
       end
     end
+
+    describe "count of microposts" do
+      describe "with 2 microposts" do
+        before do
+          FactoryGirl.create(:micropost, user: user)
+          FactoryGirl.create(:micropost, user: user)
+          visit root_path
+        end
+        it { should have_content('2 microposts') }
+      end
+
+      describe "with 1 micropost" do
+        before do
+          FactoryGirl.create(:micropost, user: user)
+          visit root_path
+        end
+        it { should have_content('1 micropost') }
+      end
+
+      describe "with 0 microposts" do
+        it { should have_content('0 microposts') }
+      end
+    end
   end
 
   describe "micropost destruction" do
